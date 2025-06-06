@@ -7,15 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative w-screen h-auto overflow-hidden">
-      {/* Background Image */}
-      <img
-        onClick={() => navigate("/")}
-        src={assets.background_image1}
-        className="absolute top-0 left-0 w-full h-full object-cover -z-10 opacity-50"
-        alt="Background Image"
-      />
-
+    <div className="relative w-screen h-auto overflow-hidden bg-gradient-to-tr from-blue-300 via-blue-200 to-blue-300">
       {/* Navbar Content */}
       <div className="flex justify-between items-center py-3 mx-8 sm:mx-20 xl:mx-32 relative z-10">
         {/* Logo & Title Section */}
