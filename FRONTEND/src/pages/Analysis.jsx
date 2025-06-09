@@ -1,22 +1,83 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { FaChartSimple } from "react-icons/fa6";
-import { FaHandPointRight } from "react-icons/fa";
+import { Bar, Pie, Line } from "react-chartjs-2";
 import { GrWaypoint } from "react-icons/gr";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Toast styling
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
 
 const Analysis = () => {
   const [selectedChart, setSelectedChart] = useState("");
+  const [chartName, setChartName] = useState("");
+  const [chartData, setChartData] = useState(null);
+  const [chartVisible, setChartVisible] = useState(false);
 
-  // Function to handle chart selection
-  const handleChartSelection = (event) => {
-    setSelectedChart(event.target.value);
-    console.log("Selected Chart Type:", event.target.value); // Debugging purpose
+  useEffect(() => {
+    const storedData = localStorage.getItem("uploadedData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData.length === 0) return;
+
+      const labels = parsedData.map(row => row["Name"] || Object.values(row)[0]); // Extract labels
+      const columnKeys = Object.keys(parsedData[0]).filter(key => key !== "Name");
+
+      const datasets = columnKeys.map((key, index) => ({
+        label: key,
+        data: parsedData.map(row => parseFloat(row[key]) || 0),
+        backgroundColor: parsedData.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`),
+        borderColor: parsedData.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`),
+        borderWidth: 1,
+      }));
+
+      setChartData({ labels, datasets });
+    }
+  }, []);
+
+  const handleCreateChart = () => {
+    if (!chartName || !selectedChart) {
+      toast.error("Please enter a chart name and select a chart type before proceeding!");
+      return;
+    }
+    toast.success("Chart created successfully!");
+    setChartVisible(true); // Enable chart rendering
   };
+
+
+  const renderChart = () => {
+    if (!chartVisible) return null; // Only render chart if chartVisible is true
+
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { autoSkip: false } },
+        y: { beginAtZero: true },
+      }
+    };
+
+
+  switch (selectedChart) {
+    case "bar":
+      return <Bar data={chartData} options={chartOptions} />;
+    case "pie":
+      return <Pie data={chartData} />;
+    case "line":
+      return <Line data={chartData} options={chartOptions} />;
+    default:
+      return <p>Select a chart type to visualize data.</p>;
+  }
+};
+
 
   return (
     <div className="h-screen w-screen bg-gradient-to-tr from-pink-200 via-violet-200 to-cyan-300 overflow-auto">
-      <div className="flex flex-row justify-evenly items-center min-h-screen min-w-screen">
-        <div className="flex flex-col shadow-xl shadow-slate-700 rounded-lg p-8 gap-6">
+      <ToastContainer />
+      <div className="flex flex-col justify-evenly items-center min-h-screen min-w-screen">
+        <div className="flex flex-row justify-center gap-5 items-center min-h-screen min-w-screen">
+          <div className="flex flex-col shadow-xl shadow-slate-700 rounded-lg p-8 gap-6">
           <h1 className="font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700">
             ENTER THE DETAILS OF THE CHART
           </h1>
@@ -25,41 +86,27 @@ const Analysis = () => {
               className="p-3 w-full h-10 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
               type="text"
               placeholder="Enter Chart Name"
+              value={chartName}
+              onChange={(e) => setChartName(e.target.value)}
             />
             <MdDriveFileRenameOutline size={30} />
           </div>
           <div className="flex flex-row-reverse gap-2 items-center">
             <select
               className="p-2 w-full h-10 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out cursor-pointer"
-              onChange={handleChartSelection}
-              value={selectedChart} // Bind selected value
+              onChange={(e) => setSelectedChart(e.target.value)}
             >
-              <option value="" disabled>
-                Select Chart Type
-              </option>
+              <option value="">Select Chart</option>
               <option value="bar">Bar Chart</option>
               <option value="pie">Pie Chart</option>
               <option value="line">Line Chart</option>
             </select>
             <FaChartSimple size={30} />
           </div>
-          <div className="flex flex-row-reverse gap-2 item-center">
-            <input
-              className="p-3 w-full h-10 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
-              type="text"
-              placeholder="Enter the Value 1"
-            />
-            <FaHandPointRight size={30} />
-          </div>
-          <div className="flex flex-row-reverse gap-2 item-center">
-            <input
-              className="p-3 w-full h-10 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
-              type="text"
-              placeholder="Enter the Value 2"
-            />
-            <FaHandPointRight size={30} />
-          </div>
-          <button className="font-bold text-xl w-full p-2 shadow-xl border-2 border-slate-500 shadow-slate-700 rounded-lg active:scale-95 duration-200 ease-in-out active:bg-slate-500">
+          <button
+            onClick={handleCreateChart}
+            className="font-bold text-xl w-full p-2 shadow-xl border-2 border-slate-500 shadow-slate-700 rounded-lg active:scale-95 duration-200 ease-in-out active:bg-slate-500"
+          >
             CREATE THE CHART
           </button>
         </div>
@@ -84,6 +131,8 @@ const Analysis = () => {
             <GrWaypoint size={20} />
           </div>
         </div>
+        </div>
+        <div className="w-2/3 mt-5">{renderChart()}</div>
       </div>
     </div>
   );
