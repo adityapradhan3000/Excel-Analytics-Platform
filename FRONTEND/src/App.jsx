@@ -5,10 +5,13 @@ import Hero from './pages/Hero'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Analysis from './pages/Analysis'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <div>
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Homepage/>}/>
         <Route path='/hero' element={<Hero/>}/>

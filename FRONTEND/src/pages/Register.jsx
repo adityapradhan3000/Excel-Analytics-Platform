@@ -4,13 +4,61 @@ import { MdEmail } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
 import { MdPerson } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useContext } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AppContent } from "../context/AppContext";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { backendUrl, setIsLoggedin, setUserData } = useContext(AppContent);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      toast.error("Please enter all the details!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${backendUrl}/api/auth/register`, {
+        name,
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        toast.success("Registration successful!");
+
+        setIsLoggedin(true);
+        setUserData(response.data.user);
+
+        // ✅ Wait briefly before navigating
+        setTimeout(() => {
+          navigate("/hero");
+        }, 1500); // 1.5 seconds is usually enough
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Registration Failed! Please try again");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen w-screen bg-gradient-to-r from-pink-200 via-violet-200 to-cyan-300">
-      <div className="w-3/4 max-w-lg p-8 max-md:m-6 shadow-2xl shadow-slate-950 rounded-lg">
+      <ToastContainer />
+      <form
+        onSubmit={handleSubmit}
+        className="w-3/4 max-w-lg p-8 max-md:m-6 shadow-2xl shadow-slate-950 rounded-lg"
+      >
         <div className="flex flex-col justify-center">
           <div className="flex flex-col items-center justify-center">
             <div className="rounded-2xl shadow-xl shadow-slate-500 p-3">
@@ -34,8 +82,12 @@ const Register = () => {
             </h3>
             <div className="flex flex-row-reverse gap-2">
               <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 className="p-3 w-full h-8 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
                 type="text"
+                placeholder="Enter your name"
+                required
               />
               <MdPerson size={30} />
             </div>
@@ -46,8 +98,12 @@ const Register = () => {
             </h3>
             <div className="flex flex-row-reverse gap-2">
               <input
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 className="p-3 w-full h-8 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
                 type="text"
+                placeholder="Enter your email"
+                required
               />
               <MdEmail size={30} />
             </div>
@@ -58,8 +114,12 @@ const Register = () => {
             </h3>
             <div className="flex flex-row-reverse gap-2">
               <input
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 className="p-3 w-full h-8 rounded-xl shadow-xl shadow-slate-500 active:scale-95 duration-500 ease-in-out"
                 type="password"
+                placeholder="Enter your password"
+                required
               />
               <RiLockPasswordFill size={30} />
             </div>
@@ -84,7 +144,7 @@ const Register = () => {
             </p>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
