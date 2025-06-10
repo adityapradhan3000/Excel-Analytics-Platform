@@ -14,12 +14,6 @@ const Header = () => {
 
       {/* Header Content */}
       <div className="mx-8 sm:mx-16 xl:mx-24 relative z-10">
-        <div className="pt-3">
-          {/* Welcome Banner */}
-          <div className="flex w-1/2 mx-auto items-center justify-center px-3 py-4 mb-4 border-2 border-slate-600 rounded-full text-md text-slate-950">
-            <p className="font-extrabold text-2xl">Welcome Everyone</p>
-          </div>
-        </div>
 
         {/* Main Heading */}
         <h1 className="pt-5 text-center text-xl sm:text-6xl font-semibold bg-gradient-to-r from-slate-950 to-slate-400 bg-clip-text text-transparent sm:leading-16">

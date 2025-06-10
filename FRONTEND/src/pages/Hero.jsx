@@ -17,7 +17,7 @@ const FileUploader = () => {
 
   const navigate = useNavigate();
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = (event) => { 
     const uploadedFile = event.target.files[0];
 
     if (!uploadedFile) return;
@@ -80,6 +80,9 @@ const FileUploader = () => {
     <>
       <div className="w-screen h-screen flex flex-col justify-center items-center bg-gradient-to-r from-pink-200 via-violet-200 to-cyan-300 gap-4">
         <ToastContainer />
+        <div className="flex flex-row justify-center items-center mb-6 p-4 shadow-xl shadow-slate-700 rounded-lg text-2xl font-extrabold bg-gradient-to-r from-violet-900 via-pink-400 to-cyan-700 text-transparent bg-clip-text">
+          Welcome
+        </div>
         <div className="flex flex-row justify-evenly gap-5 items-center">
           <div className="flex flex-col items-center justify-center shadow-xl shadow-slate-700 border rounded-lg p-9 gap-4">
             <p className="font-extrabold text-center text-3xl bg-gradient-to-r from-violet-900 via-pink-400 to-cyan-700 text-transparent bg-clip-text">
@@ -184,7 +187,7 @@ const FileUploader = () => {
             }
             navigate("/analysis");
           }}
-          className="border rounded-lg shadow-xl font-bold shadow-slate-700 p-3 min-h-0 min-w-0 active:scale-95 duration-200 ease-in-out bg-blue-500 text-white cursor-pointer"
+          className="rounded-lg shadow-xl font-bold shadow-slate-700 p-3 min-h-0 min-w-0 active:scale-95 duration-200 ease-in-out bg-blue-500 text-white cursor-pointer"
         >
           ANALYZE THE CHART
         </button>
