@@ -4,6 +4,9 @@ import 'dotenv/config';
 import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import authRouter from './routes/authRoutes.js'
+import chartRouter from "./routes/chartRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -20,7 +23,9 @@ connectDB();
 app.get("/", (req, res) => {
     res.send("API is working now!")
 })
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
+app.use("/api/chart", chartRouter);
+app.use("/api/admin", adminRouter);
 
 app.listen(port, () => {
 console.log(`The server is listening at http://localhost:${port}`);});
