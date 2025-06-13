@@ -9,11 +9,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { Chart, registerables } from "chart.js";
 import { AppContent } from "../context/AppContext";
 import axios from "axios";
+import { CiSaveDown2 } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 Chart.register(...registerables);
 
 const Analysis = () => {
   const { backendUrl, setChartsData } = useContext(AppContent);
+
+  const navigate = useNavigate();
 
   const [selectedChart, setSelectedChart] = useState("");
   const [chartName, setChartName] = useState("");
@@ -140,7 +144,8 @@ const Analysis = () => {
       <ToastContainer />
       <form
         className="flex flex-col justify-evenly items-center min-h-screen min-w-screen"
-        onSubmit={handleSubmit}
+        onSubmit={(e) => e.preventDefault()}
+
       >
         <div className="flex flex-row justify-center items-center gap-3">
           <div className="flex flex-row justify-center gap-5 items-center min-h-screen min-w-screen">
@@ -224,33 +229,50 @@ const Analysis = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 shadow-xl shadow-slate-700 rounded-lg p-5">
-          <h1 className="font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700">
-            INSTRUCTIONS ON HOW TO UPLOAD THE CHART
-          </h1>
-          <div className="gap-3 flex flex-row-reverse justify-end items-center">
-            <p className="text-md">Enter the name of the chart</p>
-            <GrWaypoint size={20} />
+          <div className="flex flex-col justify-center items-center shadow-xl gap-5 shadow-slate-800 p-6 rounded-lg">
+            <div className="flex flex-col gap-4 shadow-xl shadow-slate-700 rounded-lg p-5">
+              <h1 className="font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700">
+                INSTRUCTIONS ON HOW TO UPLOAD THE CHART
+              </h1>
+              <div className="gap-3 flex flex-row-reverse justify-end items-center">
+                <p className="text-md">Enter the name of the chart</p>
+                <GrWaypoint size={20} />
+              </div>
+              <div className="gap-3 flex flex-row-reverse justify-end items-center">
+                <p className="text-md">
+                  Enter the type of the chart you want to create for the
+                  particular sheet
+                </p>
+                <GrWaypoint size={20} />
+              </div>
+              <div className="gap-3 flex flex-row-reverse justify-end items-center">
+                <p className="text-md">Enter the value for X-axis</p>
+                <GrWaypoint size={20} />
+              </div>
+              <div className="gap-3 flex flex-row-reverse justify-end items-center">
+                <p className="text-md">Enter the value for Y-axis</p>
+                <GrWaypoint size={20} />
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-center items-center shadow-xl shadow-slate-800 rounded-lg p-4">
+              <h1 className="font-extrabold text-xl bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700">
+                SAVED CHART HISTORY
+              </h1>
+
+              <div className="flex flex-row gap-3 justify-center items-center">
+                <CiSaveDown2 size={40} />
+                <button
+                  onClick={() => navigate("/history")}
+                  className="font-bold text-md shadow-xl shadow-slate-800 rounded-lg p-3 active:scale-95 duration-300 ease-in-out"
+                >
+                  <h1 className="font-extrabold text-md bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700">
+                    CHARTS
+                  </h1>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="gap-3 flex flex-row-reverse justify-end items-center">
-            <p className="text-md">
-              Enter the type of the chart you want to create for the particular sheet
-            </p>
-            <GrWaypoint size={20} />
-          </div>
-          <div className="gap-3 flex flex-row-reverse justify-end items-center">
-            <p className="text-md">
-              Enter the value for X-axis 
-            </p>
-            <GrWaypoint size={20} />
-          </div>
-          <div className="gap-3 flex flex-row-reverse justify-end items-center">
-            <p className="text-md">
-              Enter the value for Y-axis 
-            </p>
-            <GrWaypoint size={20} />
-          </div>
-        </div>
         </div>
 
         {/* Chart Rendering */}

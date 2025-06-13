@@ -20,12 +20,14 @@ export const createChart = async (req, res) => {
 }
 
 export const getCharts = async (req, res) => {
-    try {
-        
-        const charts = await chartModel.find();
-        res.status(200).json(charts);
-
-    } catch (error) {
-        res.status(500).json({success : false, message : 'Failed to fetch all the charts!', error: error.message});
-    }
+  try {
+    const charts = await chartModel.find().sort({ _id: -1 }); // optional: sort by latest
+    res.status(200).json({ success: true, charts, message : "All the charts data fetched successfully" }); // ✅ wrap in object with 'success' and 'charts'
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch all the charts!',
+      error: error.message,
+    });
+  }
 };
