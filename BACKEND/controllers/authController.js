@@ -98,3 +98,33 @@ export const logout = async (req, res) => {
         return res.json({ success : false, message: error.message});
     }
 }
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await userModel.find().sort({ _id: -1 }); //As this sort the users according to latest registration
+    res.status(200).json({ success : true, users, message : 'All the users credentials fetched successfully'})
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch all the users credentials',
+      error: error.message,
+    });
+  }
+}
+
+export const deleteUsers = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await userModel.findByIdAndDelete(id);
+
+    if(!deletedUser) {
+      return res.status(404).json({ success : false, message : "User Not Found!"});
+    }
+
+    return res.status(200).json({ success : true, message : "User credentials deleted successfully!"});
+  } catch (error) {
+    return res.status(500).json({ success : false, message : "Server Error", error:error.message});
+  }
+}

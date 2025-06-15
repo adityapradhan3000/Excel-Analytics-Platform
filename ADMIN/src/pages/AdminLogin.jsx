@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useContext } from "react";
 import { AppContent } from "../context/AppContext";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 
-const Login = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
-  const {backendUrl, setIsLoggedin, setUserData} = useContext(AppContent);
+  const { backendUrl, setIsLoggedin, setUserData } = useContext(AppContent);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,36 +17,39 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!email || !password) {
-      toast.error("Please enter email and Password");
+    if (!email || !password) {
+      toast.error("Please enter email and password");
+      return;
     }
 
     try {
       const response = await axios.post(
-        `${backendUrl}/api/auth/login`,
-        {email, password},
+        `${backendUrl}/api/admin/adminLogin`,
+        { email, password },
         { withCredentials: true }
       );
 
-      if(response.data.success) {
+      if (response.data.success && response.data.user) {
         setIsLoggedin(true);
         setUserData(response.data.user);
-        toast.success("Login Successfull!");
+        toast.success("Login Successful!");
 
         setTimeout(() => {
-          navigate("/hero");
-        }, 1000)
+          navigate("/home");
+        }, 1000);
       } else {
-        toast.error(response.data.message || "Login Failed");
+        toast.error(response.data.message || "Login failed");
       }
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+      toast.error(
+        error.response?.data?.message || "Something went wrong. Please try again."
+      );
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen w-screen bg-gradient-to-r from-pink-200 via-violet-200 to-cyan-300">
-      <ToastContainer /> 
+      <ToastContainer />
       <form
         onSubmit={handleSubmit}
         className="w-3/4 max-w-lg p-8 max-md:m-6 shadow-2xl shadow-slate-950 rounded-lg"
@@ -56,7 +57,7 @@ const Login = () => {
         <div className="flex flex-col justify-center">
           <div className="rounded-2xl shadow-xl shadow-slate-500 p-3">
             <h1 className="font-extrabold text-center text-3xl bg-gradient-to-r from-violet-900 via-pink-400 to-cyan-700 text-transparent bg-clip-text">
-              LOGIN PORTAL
+              ADMIN LOGIN PORTAL
             </h1>
           </div>
           <p className="text-md pt-4 text-center font-bold text-gray-800">
@@ -101,32 +102,10 @@ const Login = () => {
               LOGIN
             </button>
           </div>
-
-          <div className="border-2 border-gray-900 rounded-xl mt-7" />
-          <div className="flex justify-center items-center mt-3">
-            <p className="text-slate-950 font-bold text-md">
-              Don't have an account!
-            </p>
-          </div>
-
-          <div className="flex items-start justify-between mt-3">
-            <p
-              onClick={() => navigate("/")}
-              className="font-semibold text-md text-slate-900 cursor-pointer active:scale-95 duration-300 ease-in-out"
-            >
-              Back
-            </p>
-            <p
-              onClick={() => navigate("/register")}
-              className="font-semibold text-md text-slate-900 cursor-pointer active:scale-95 duration-300 ease-in-out"
-            >
-              Create an Account
-            </p>
-          </div>
         </div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default AdminLogin;

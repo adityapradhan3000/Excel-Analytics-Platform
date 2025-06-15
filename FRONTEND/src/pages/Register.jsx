@@ -13,7 +13,7 @@ import { AppContent } from "../context/AppContext";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { backendUrl, setIsLoggedin, setUserData } = useContext(AppContent);
+  const { backendUrl, setIsLoggedin, setUserData} = useContext(AppContent);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,11 +35,9 @@ const Register = () => {
       });
 
       if (response.data.success) {
-        toast.success("Registration successful!");
-
         setIsLoggedin(true);
         setUserData(response.data.user);
-
+        toast.success("Registration successful!");
         // ✅ Wait briefly before navigating
         setTimeout(() => {
           navigate("/hero");

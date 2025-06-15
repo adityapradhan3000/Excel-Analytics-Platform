@@ -4,6 +4,7 @@ import { FaChartSimple } from "react-icons/fa6";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import { GrWaypoint } from "react-icons/gr";
 import { FaHandPointRight } from "react-icons/fa";
+import { IoIosWarning } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Chart, registerables } from "chart.js";
@@ -26,10 +27,6 @@ const Analysis = () => {
   const [availableColumns, setAvailableColumns] = useState([]); // Stores column names
   const [selectedXColumn, setSelectedXColumn] = useState("");
   const [selectedYColumn, setSelectedYColumn] = useState("");
-  const [nameOfChart, setNameOfChart] = useState("");
-  const [typeOfChart, setTypeOfChart] = useState("");
-  const [valueOfx, setValueOfx] = useState("");
-  const [valueOfy, setValueOfy] = useState("");
 
   useEffect(() => {
     const storedData = localStorage.getItem("uploadedData");
@@ -215,12 +212,12 @@ const Analysis = () => {
               <button
                 type="button"
                 onClick={handleCreateChart}
-                className="font-extrabold text-xl w-full p-2 shadow-xl shadow-slate-700 rounded-lg active:bg-slate-500"
+                className="font-extrabold text-xl w-full p-2 shadow-xl shadow-slate-700 rounded-lg active:scale-95 duration-300 ease-in-out"
               >
                 CREATE THE CHART
               </button>
               <button
-                className="font-extrabold text-xl w-full p-2 shadow-xl shadow-slate-700 rounded-lg active:bg-slate-500"
+                className="font-extrabold text-xl w-full p-2 shadow-xl shadow-slate-700 rounded-lg active:scale-95 duration-300 ease-in-out"
                 type="button"
                 onClick={handleSubmit}
               >
@@ -252,6 +249,10 @@ const Analysis = () => {
               <div className="gap-3 flex flex-row-reverse justify-end items-center">
                 <p className="text-md">Enter the value for Y-axis</p>
                 <GrWaypoint size={20} />
+              </div>
+              <div className="gap-3 flex flex-row-reverse justify-end items-center">
+                <p className="text-md">Attention: Please fill all the values in required fields</p>
+                <IoIosWarning size={20} />
               </div>
             </div>
 

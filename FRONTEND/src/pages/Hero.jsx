@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import * as XLSX from "xlsx";
 import Papa from "papaparse";
 import { FaFileUpload } from "react-icons/fa";
@@ -8,9 +8,12 @@ import { GrWaypoint } from "react-icons/gr";
 import { IoIosWarning } from "react-icons/io";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-0;
+import { AppContent } from "../context/AppContext";
 
 const FileUploader = () => {
+
+  const { userData } = useContext(AppContent);
+
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(false);

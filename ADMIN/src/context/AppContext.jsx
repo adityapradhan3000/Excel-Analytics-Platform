@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const AppContent = createContext();
 
 export const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [isLoggedin, setIsLoggedin] = useState(false);
-  const [userData, setUserData] = useState(false);
-  const [chartData, setChartsData] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   const value = {
     backendUrl,
@@ -15,11 +13,11 @@ export const AppContextProvider = (props) => {
     setIsLoggedin,
     userData,
     setUserData,
-    chartData,
-    setChartsData
   };
 
   return (
-    <AppContent.Provider value={value}>{props.children}</AppContent.Provider>
+    <AppContent.Provider value={value}>
+      {props.children}
+    </AppContent.Provider>
   );
 };
