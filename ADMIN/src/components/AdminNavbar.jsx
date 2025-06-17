@@ -50,7 +50,16 @@ const AdminNavbar = () => {
         >
           <PiNotepadBold size={30} />
           <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-            HISTORY
+            2D CHART HISTORY
+          </h1>
+        </div>
+        <div
+          onClick={() => navigate("/3Dhistory")}
+          className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer"
+        >
+          <PiNotepadBold size={30} />
+          <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
+            3D CHART HISTORY
           </h1>
         </div>
         <div onClick={() => navigate("/userList")} className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer">

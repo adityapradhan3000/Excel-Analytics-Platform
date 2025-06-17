@@ -8,6 +8,8 @@ import Analysis from './pages/Analysis'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChartsPage from './pages/ChartsPage'
+import DimenionPage from './pages/DimenionPage'
+import ThreeDChartsPage from './pages/ThreeDChartsPage'
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
         <Route path='/register' element={<Register/>}/>
         <Route path='/analysis' element={<Analysis/>}/>
         <Route path='/history' element={<ChartsPage/>}/>
+        <Route path='3dPage' element={<DimenionPage/>}/>
+        <Route path='/3DHistoryPage' element={<ThreeDChartsPage/>}/>
       </Routes>
     </div>
   )

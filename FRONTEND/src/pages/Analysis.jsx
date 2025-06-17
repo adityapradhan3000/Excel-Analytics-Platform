@@ -223,6 +223,13 @@ const Analysis = () => {
               >
                 SAVE CHART DATA
               </button>
+              <button
+                className="font-extrabold text-xl w-full p-2 shadow-xl shadow-slate-700 rounded-lg active:scale-95 duration-300 ease-in-out"
+                type="button"
+                onClick={() => navigate("/3dPage")}
+              >
+                3D CHARTS
+              </button>
             </div>
           </div>
 

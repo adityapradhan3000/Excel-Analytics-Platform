@@ -5,6 +5,7 @@ import AdminHome from './pages/AdminHome'
 import ChartHistory from './pages/ChartHistory'
 import UsersList from './pages/UsersList'
 import ChartReport from './pages/ChartReport'
+import Three3DChartHistory from './pages/Three3DChartHistory'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='history' element={<ChartHistory/>}/>
         <Route path='/userList' element={<UsersList/>}/>
         <Route path='/report' element={<ChartReport/>}/>
+        <Route path='/3Dhistory' element={<Three3DChartHistory/>}/>
       </Routes>
     </div>
   )

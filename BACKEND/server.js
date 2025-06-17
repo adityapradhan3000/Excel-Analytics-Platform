@@ -6,6 +6,7 @@ import connectDB from "./config/mongodb.js";
 import authRouter from './routes/authRoutes.js'
 import chartRouter from "./routes/chartRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
+import threeDchartRouter from "./routes/threeDRoutes.js";
 
 
 const app = express();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use('/api/auth', authRouter);
 app.use("/api/chart", chartRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/threeDChart", threeDchartRouter);
 
 app.listen(port, () => {
 console.log(`The server is listening at http://localhost:${port}`);});
