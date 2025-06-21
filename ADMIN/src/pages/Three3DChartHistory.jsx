@@ -3,10 +3,14 @@ import { AppContent } from "../context/AppContext";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaArrowRight, FaLongArrowAltRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { assets } from "../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 const Three3DChartHistory = () => {
+
+  const navigate = useNavigate();
+
   const { backendUrl } = useContext(AppContent);
   const [charts, setCharts] = useState([]);
 
@@ -45,55 +49,83 @@ const Three3DChartHistory = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-tr from-pink-200 via-violet-200 to-cyan-300 overflow-auto">
+    <div className="h-screen w-screen bg-gradient-to-tr from-gray-600 via-gray-700 to-gray-900 overflow-auto">
       <ToastContainer />
-      <h1 className="text-3xl mt-6 font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-br from-violet-900 via-pink-400 to-cyan-700 mb-6">
-        SAVED CHARTS HISTORY
+      <img
+        onClick={() => navigate("/home")}
+        src={assets.excel_analytics_logo}
+        alt=""
+        className="h-24 w-24 animate-pulse absolute top-8 left-5 rounded-lg shadow-xl shadow-orange-700 active:scale-90 duration-200 ease-in-out cursor-pointer"
+      />
+      <h1 className="text-5xl animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-orange-500 to-orange-600 font-extrabold text-center m-6">
+        3D CHARTS HISTORY
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 m-6 gap-6">
-        {Array.isArray(charts) && charts.length > 0 ? (
-          charts.map((chart) => (
-            <div
-              key={chart._id}
-              className="relative bg-gradient-to-br from-pink-200 via-violet-300 to-cyan-400 shadow-xl shadow-slate-800 rounded-lg p-4"
-            >
-              {/* Delete icon */}
-              <button
-                onClick={() => handleDelete(chart._id)}
-                className="rounded-lg shadow-xl shadow-slate-800 items-center absolute right-10 top-12 text-red-600 hover:text-red-800"
+      <button
+        onClick={() => navigate("/history")}
+        className="top-8 animate-bounce right-14 absolute rounded-full shadow-xl shadow-orange-800 bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400 px-9 py-2"
+      >
+        <p className="font-bold text-lg">BACK</p>
+      </button>
+      <p className="text-xl text-center font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-blue-400 to-green-900">
+        All your saved charts are listed here
+      </p>
+      <div className="h-0.5 mt-10 w-full bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400"></div>
+      <div className="overflow-x-auto m-6 shadow-xl shadow-orange-800 rounded-lg">
+        <table className="min-w-full animate-slideUp table-auto text-left bg-white rounded-lg">
+          <thead className="bg-gradient-to-r from-blue-400 via-orange-400 to-orange-500 text-indigo-900 font-bold">
+            <tr>
+              <th className="px-6 py-3 text-lg font-bold">CHART NAME</th>
+              <th className="px-6 py-3 text-lg font-bold">CHART TYPE</th>
+              <th className="px-6 py-3 text-lg font-bold">X-AXIS VALUE</th>
+              <th className="px-6 py-3 text-lg font-bold">Y-AXIS VALUE</th>
+              <th className="px-6 py-3 text-lg font-bold">Z-AXIS VALUE</th>
+              <th className="px-6 py-3 text-lg font-bold">DATE</th>
+              <th className="px-6 py-3 text-lg font-bold">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {charts.map((chart, index) => (
+              <tr
+                key={index}
+                className="hover:bg-slate-100 bg-gradient-to-r from-blue-400 via-orange-400 to-orange-500 transition duration-200"
               >
-                <MdDelete size={40} />
-              </button>
-
-              <h2 className="flex flex-row gap-3 items-center text-xl font-semibold text-indigo-800">
-                <span className="text-xl font-extrabold">CHART NAME</span>
-                <FaArrowRight /> {chart.chartName}
-              </h2>
-              <p className="flex flex-row items-center gap-2 text-gray-700 mt-1">
-                <span className="text-lg font-extrabold">CHART TYPE</span>
-                <FaArrowRight />
-                <span className="text-lg font-bold">{chart.chartType}</span>
-                <span className="font-bold">chart</span>
-              </p>
-              <p className="text-gray-600 text-md font-bold mt-2 flex items-center gap-2">
-                X-Axis Field <FaLongArrowAltRight className="text-slate-900" />
-                <span className="font-bold">{chart.value1}</span>
-              </p>
-              <p className="text-gray-600 text-md font-bold mt-1 flex items-center gap-2">
-                Y-Axis Field <FaLongArrowAltRight className="text-slate-900" />
-                <span className="font-bold">{chart.value2}</span>
-              </p>
-              <p className="text-gray-600 text-md font-bold mt-1 flex items-center gap-2">
-                Z-Axis Field <FaLongArrowAltRight className="text-slate-900" />
-                <span className="font-bold">{chart.value3}</span>
-              </p>
-            </div>
-          ))
-        ) : (
-          <p className="text-lg text-gray-600 text-center col-span-full">
-            No saved charts found.
-          </p>
-        )}
+                <td className="px-6 py-4 font-extrabold text-slate-800">
+                  {chart.chartName}
+                </td>
+                <td className="px-6 py-4 text-slate-700 font-bold capitalize">
+                  {chart.chartType}
+                </td>
+                <td className="px-6 py-4 font-bold text-slate-600">
+                  {chart.value1}
+                </td>
+                <td className="px-6 py-4 font-bold text-slate-600">
+                  {chart.value2}
+                </td>
+                <td className="px-6 py-4 font-bold text-slate-600">
+                  {chart.value3}
+                </td>
+                <td className="px-6 py-4 font-bold text-slate-900">
+                  {new Date(chart.dateUploaded).toLocaleDateString("en-GB")}
+                </td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => handleDelete(chart._id)}
+                    className="p-2 rounded-lg shadow-md text-red-600 hover:text-red-800 hover:scale-105 transition duration-200"
+                  >
+                    <MdDelete size={24} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {charts.length === 0 && (
+              <tr>
+                <td colSpan="5" className="text-center text-gray-500 px-6 py-4">
+                  No saved charts found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

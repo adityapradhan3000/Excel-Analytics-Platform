@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     chartType: {type: String, required: true},
     value1: {type: String, required: true},
     value2: {type: String, required: true},
+    dateUploaded: { type: Date, default: Date.now },
 });
 
 const chartModel = mongoose.models.chart || mongoose.model('chart', userSchema);

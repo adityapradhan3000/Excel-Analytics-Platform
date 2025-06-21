@@ -1,36 +1,80 @@
 import React from "react";
-import { assets } from "../assets/assets";
-import { IoMdLogIn } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { assets } from "../assets/assets";
+import { FaInfoCircle } from "react-icons/fa";
+import { IoCallSharp } from "react-icons/io5";
+import { MdFeaturedPlayList } from "react-icons/md";
+import { BiSolidLogInCircle } from "react-icons/bi";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative w-full h-auto overflow-hidden bg-gradient-to-r from-blue-500 via-blue-400 to-blue-300 shadow-md">
-      {/* Navbar Content */}
-      <div className="flex justify-between items-center py-4 px-6 sm:px-16 xl:px-24">
-        {/* Logo & Title Section */}
-        <div className="flex items-center gap-3">
+    <div className="relative w-full bg-gradient-to-r from-gray-600 via-gray-700 to-gray-900 h-auto overflow-hidden shadow-md">
+      <div className="flex m-5 flex-row justify-between items-center">
+        <div className="flex flex-row gap-6 items-center">
+          {/* Logo */}
           <img
-            src={assets.analytics_logo}
-            className="w-16 sm:w-20 rounded-lg shadow-lg"
-            alt="Analytics Logo"
+            onClick={() => navigate("/home")}
+            src={assets.excel_analytics_logo}
+            alt="Blog Logo"
+            className="h-24 w-24 rounded-lg cursor-pointer"
           />
-          <h1 className="text-2xl font-extrabold rounded-lg p-3 text-slate-800 shadow-xl shadow-blue-800 bg- tracking-wide">
-            Excel Analytics Platform
-          </h1>
+
+          {/* Navigation Buttons */}
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate("/about")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">About</p>
+              <FaInfoCircle size={20} />
+            </button>
+
+            <button
+              onClick={() => navigate("/contact")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">Contact</p>
+              <IoCallSharp size={20} />
+            </button>
+
+            <button
+              onClick={() => navigate("/feature")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">Features</p>
+              <MdFeaturedPlayList size={20} />
+            </button>
+          </div>
         </div>
 
-        {/* Login Button */}
-        <button
-          onClick={() => navigate("/login")}
-          className="flex items-center gap-3 font-extrabold text-lg sm:text-xl rounded-full px-6 py-3 transition duration-300 ease-in-out bg-gradient-to-r from-blue-700 via-blue-400 to-blue-600 text-white shadow-xl shadow-blue-700 hover:shadow-2xl hover:bg-gray-800 active:scale-95"
-        >
-          LOGIN
-          <IoMdLogIn size={30} className="text-white" />
-        </button>
+        <div className="flex gap-5 flex-row justify-between items-center">
+          <button
+            onClick={() => navigate("/hero")}
+            className="animate-bounce mt-3 shadow-xl bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400 shadow-orange-900 rounded-full p-3 active:scale-90 duration-200 transition-all"
+          >
+            <p className="font-bold">GET STARTED</p>
+          </button>
+
+          <button
+            onClick={() => navigate("/")}
+            className="animate-pulse flex items-center gap-3 px-6 py-2 rounded-full shadow-xl shadow-slate-800 
+              bg-gradient-to-r from-red-200 via-red-300 to-red-400 hover:scale-105 
+              active:scale-95 transition-all duration-200 ease-in-out cursor-pointer"
+          >
+            <p className="text-lg font-bold">Logout</p>
+            <BiSolidLogInCircle size={30} />
+          </button>
+        </div>
       </div>
+      <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400"></div>
     </div>
   );
 };

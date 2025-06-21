@@ -1,11 +1,43 @@
 import analytics_logo from "./analytics_logo.png";
 import background_image from "./background_image.jpg";
 import background_image1 from "./background_image1.jpg";
+import excel_analytics_logo from "./excel_analytics_logo.png"
+import excel_background from "./excel_background.png"
+import excel_background1 from "./excel_background1.png"
+import interactive_charts from "./interactive_charts.png"
+import interactive_3Dcharts from "./interactive_3Dcharts.png"
+import upload_excel_sheet from "./upload_excel_sheet.png"
+import data_integration_one from "./data_integration_one.png"
+import data_visualization_one from "./data_visualization_one.png"
+import report_generation_one from "./report_generation_one.png"
+import free_trial_image from "./free_trial_image.png"
+import login_page from "./login_page.png"
+import registration_page from "./registration_page.png"
+import about_us from "./about_us.png"
+import twoD_charts from "./twoD_charts.png"
+import threeD_charts from "./threeD_charts.png"
+import contact_us from "./contact_us.avif"
 
 export const assets = {
   analytics_logo,
   background_image,
   background_image1,
+  excel_analytics_logo,
+  excel_background,
+  excel_background1,
+  interactive_charts,
+  interactive_3Dcharts,
+  upload_excel_sheet,
+  data_integration_one,
+  data_visualization_one,
+  report_generation_one,
+  free_trial_image,
+  login_page,
+  registration_page,
+  about_us,
+  twoD_charts,
+  threeD_charts,
+  contact_us
 };
 
 export const chartsCategories = [

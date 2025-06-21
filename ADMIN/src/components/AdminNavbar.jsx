@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { BsBarChartFill } from "react-icons/bs";
-import { PiNotepadBold } from "react-icons/pi";
-import { FaUsers } from "react-icons/fa6";
-import { RiLogoutCircleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { RiAdminFill } from "react-icons/ri";
 import { AppContent } from "../context/AppContext";
+import { FaInfoCircle } from "react-icons/fa";
+import { IoCallSharp } from "react-icons/io5";
+import { MdFeaturedPlayList } from "react-icons/md";
+import { BiSolidLogInCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { assets } from "../assets/assets";
+import axios from "axios";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const AdminNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${backendUrl}/api/admin/adminLogout`, {
+      const response = await axios.post(`${backendUrl}/api/admin/adminLogout`, {
         withCredentials: true,
       });
 
@@ -23,69 +24,81 @@ const AdminNavbar = () => {
         setIsLoggedin(false);
         setUserData(null);
         toast.success("Admin Logged out Successfully!");
-        navigate("/adminLogin");
+        navigate("/"); // Redirect to login/home page
       } else {
         toast.error("Logout Failed. Try again!");
       }
     } catch (error) {
       toast.error("Logout error. Please try again!");
     }
-  }
+  };
 
   return (
-    <div className="bg-gradient-to-br from-pink-200 via-violet-200 to-cyan-300 p-8 flex justify-between items-center">
-      {/* Admin Panel */}
-      <div className="flex flex-row items-center gap-3 p-4 rounded-lg shadow-xl shadow-slate-800 min-w-min min-h-min">
-        <RiAdminFill size={40}/>
-        <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-          ADMIN PANEL
-        </h1>
+    <div className="relative w-full bg-gradient-to-r from-gray-600 via-gray-700 to-gray-900 h-auto overflow-hidden shadow-md">
+      <div className="flex m-5 flex-row justify-between items-center">
+        <div className="flex flex-row gap-6 items-center">
+          {/* Logo */}
+          <img
+            onClick={() => navigate("/home")}
+            src={assets.excel_analytics_logo}
+            alt="Blog Logo"
+            className="h-24 w-24 rounded-lg cursor-pointer"
+          />
+
+          {/* Navigation Buttons */}
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate("/about")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">About</p>
+              <FaInfoCircle size={20} />
+            </button>
+
+            <button
+              onClick={() => navigate("/contact")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">Contact</p>
+              <IoCallSharp size={20} />
+            </button>
+
+            <button
+              onClick={() => navigate("/feature")}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg shadow-xl shadow-orange-900 
+             text-slate-50 hover:scale-105 active:scale-95 
+             transition-all duration-200 ease-in-out"
+            >
+              <p className="text-lg font-bold">Features</p>
+              <MdFeaturedPlayList size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex gap-5 flex-row justify-between items-center">
+          <button
+            onClick={() => navigate("/comment")}
+            className="animate-bounce mt-3 shadow-xl bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400 shadow-orange-900 rounded-full p-3 active:scale-90 duration-200 transition-all"
+          >
+            <p className="font-bold">GET STARTED</p>
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="animate-pulse flex items-center gap-3 px-6 py-2 rounded-full shadow-xl shadow-slate-800 
+    bg-gradient-to-r from-red-200 via-red-300 to-red-400 hover:scale-105 
+    active:scale-95 transition-all duration-200 ease-in-out cursor-pointer"
+          >
+            <p className="text-lg font-bold">Logout</p>
+            <BiSolidLogInCircle size={30} />
+          </button>
+        </div>
       </div>
-
-      {/* History & Users */}
-      <div className="flex flex-row items-center gap-3 p-4 rounded-lg shadow-xl shadow-slate-800 min-w-min min-h-min">
-        <div
-          onClick={() => navigate("/history")}
-          className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer"
-        >
-          <PiNotepadBold size={30} />
-          <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-            2D CHART HISTORY
-          </h1>
-        </div>
-        <div
-          onClick={() => navigate("/3Dhistory")}
-          className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer"
-        >
-          <PiNotepadBold size={30} />
-          <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-            3D CHART HISTORY
-          </h1>
-        </div>
-        <div onClick={() => navigate("/userList")} className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer">
-          <FaUsers size={30} />
-          <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-            USERS
-          </h1>
-        </div>
-        <div onClick={() => navigate("/report")} className="flex flex-row items-center p-3 gap-3 rounded-lg shadow-xl shadow-slate-800 active:scale-90 duration-300 ease-in-out cursor-pointer">
-          <BsBarChartFill size={30} />
-          <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-700 via-violet-500 to-cyan-400 text-center">
-            CHARTS
-          </h1>
-        </div>
-      </div>
-
-      {/* Logout Button */}
-      <button
-      onClick={handleLogout}
-      className="flex flex-row gap-3 bg-gradient-to-bl from-red-500 via-red-600 to-red-700 items-center px-6 py-3 rounded-full shadow-xl shadow-slate-800 text-lg font-bold text-white hover:scale-105 transition-transform active:scale-95">
-        <RiLogoutCircleLine size={30} className="text-black font-bold" />
-
-        <h1 className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-500 to-cyan-400">
-          LOGOUT
-        </h1>
-      </button>
+      <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-orange-300 to-orange-400"></div>
     </div>
   );
 };

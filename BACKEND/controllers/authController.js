@@ -36,7 +36,6 @@ export const register = async (req, res) => {
 
     // ✅ Ensure success response is sent
     return res.json({ success: true, message: "User registered successfully" });
-
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -75,43 +74,44 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ success : true, message : 'User logged In Successfully'});
-
+    return res.json({ success: true, message: "User logged In Successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
 };
 
-
 export const logout = async (req, res) => {
-    try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            samesite: process.env.NODE_ENV === 'production' ?
-            'none' : 'strict',
-        })
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      samesite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    });
 
-        return res.json({success: true, message: 'User Logged Out Successfully'})
-
-    } catch (error) {
-        return res.json({ success : false, message: error.message});
-    }
-}
+    return res.json({ success: true, message: "User Logged Out Successfully" });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
 
 export const getUsers = async (req, res) => {
   try {
     const users = await userModel.find().sort({ _id: -1 }); //As this sort the users according to latest registration
-    res.status(200).json({ success : true, users, message : 'All the users credentials fetched successfully'})
-
+    res
+      .status(200)
+      .json({
+        success: true,
+        users,
+        message: "All the users credentials fetched successfully",
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch all the users credentials',
+      message: "Failed to fetch all the users credentials",
       error: error.message,
     });
   }
-}
+};
 
 export const deleteUsers = async (req, res) => {
   try {
@@ -119,12 +119,39 @@ export const deleteUsers = async (req, res) => {
 
     const deletedUser = await userModel.findByIdAndDelete(id);
 
-    if(!deletedUser) {
-      return res.status(404).json({ success : false, message : "User Not Found!"});
+    if (!deletedUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found!" });
     }
 
-    return res.status(200).json({ success : true, message : "User credentials deleted successfully!"});
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "User credentials deleted successfully!",
+      });
   } catch (error) {
-    return res.status(500).json({ success : false, message : "Server Error", error:error.message});
+    return res
+      .status(500)
+      .json({ success: false, message: "Server Error", error: error.message });
   }
-}
+};
+
+export const getUserCount = async (req, res) => {
+  try {
+    const userCount = await userModel.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      message: "User count fetched successfully",
+      users: userCount,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error while counting users",
+      error: error.message,
+    });
+  }
+};
